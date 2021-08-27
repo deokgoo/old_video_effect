@@ -1,0 +1,28 @@
+{
+  "name": "old_video_effect",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "build": "./node_modules/.bin/babel script -d lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deokgoo/old_video_effect.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/deokgoo/old_video_effect/issues"
+  },
+  "homepage": "https://github.com/deokgoo/old_video_effect#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.15.0",
+    "@babel/preset-typescript": "^7.15.0"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.15.0"
+  }
+}
