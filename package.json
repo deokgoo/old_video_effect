@@ -4,7 +4,8 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "build": "./node_modules/.bin/babel script -d lib"
+    "build": "./node_modules/.bin/babel --extensions '.ts' ./src/script -d ./lib",
+    "watch": "./node_modules/.bin/babel --watch --extensions '.ts' ./src/script -d ./lib"
   },
   "repository": {
     "type": "git",
@@ -20,9 +21,8 @@
   "devDependencies": {
     "@babel/cli": "^7.14.8",
     "@babel/core": "^7.15.0",
-    "@babel/preset-typescript": "^7.15.0"
-  },
-  "dependencies": {
-    "@babel/preset-env": "^7.15.0"
+    "@babel/preset-env": "^7.15.0",
+    "@babel/preset-typescript": "^7.15.0",
+		"babel-plugin-add-module-exports": "^1.0.4"
   }
 }
