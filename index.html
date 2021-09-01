@@ -8,18 +8,15 @@
 		<title>old video effect demo</title>
 	</head>
 	<body>
-		<div class="target">
-
-		</div>
-		<img class="target-img" alt="">
+		<div class="target"></div>
 		<script type="module" defer>
 			import OldVideoEffect from './lib/oldVideoEffect.js';
 
 			const imgUrl = 'https://avatars.githubusercontent.com/u/20182365?v=4';
 
-			const imgEl = document.querySelector('.target');
-			if(!imgEl) throw new Error('not selected any element');
-			const oldVideoEffect = new OldVideoEffect(imgEl);
+			const target = document.querySelector('.target');
+			if(!target) throw new Error('not selected any element');
+			const oldVideoEffect = OldVideoEffect.createImg({target, imgUrl, size: {width: 450, height: 450}});
 		</script>
 	</body>
 </html>
