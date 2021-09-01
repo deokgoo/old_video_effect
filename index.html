@@ -8,15 +8,22 @@
 		<title>old video effect demo</title>
 	</head>
 	<body>
+		<h1>Old video effect Demo</h1>
+		<input class="imgUrl" type="text" placeholder="insert url" style="margin-bottom: 10px;">
+		<button class="run">run animation</button>
 		<div class="target"></div>
 		<script type="module" defer>
 			import OldVideoEffect from './lib/oldVideoEffect.js';
 
-			const imgUrl = 'https://avatars.githubusercontent.com/u/20182365?v=4';
-
-			const target = document.querySelector('.target');
-			if(!target) throw new Error('not selected any element');
-			const oldVideoEffect = OldVideoEffect.createImg({target, imgUrl, size: {width: 450, height: 450}});
+			const runBtn = document.querySelector('.run');
+			runBtn.addEventListener('click', () => {
+				// const imgUrl = 'https://avatars.githubusercontent.com/u/20182365?v=4';
+				const imgUrl = document.querySelector('.imgUrl').value;
+				const target = document.querySelector('.target');
+				if(!target || !imgUrl) throw new Error('not selected any element');
+				target.innerHTMl = '';
+				const oldVideoEffect = OldVideoEffect.createImg({target, imgUrl, size: {width: 450, height: 450}});
+			});
 		</script>
 	</body>
 </html>

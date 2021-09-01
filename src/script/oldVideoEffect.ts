@@ -12,10 +12,15 @@ interface EffectControl {
 }
 
 const NOISE_IMG = 'http://localhost:8000/img/noise.jpg';
+const SPACE_SIZE = 5;
+
 class OldVideoEffect implements EffectControl {
 	private _target: HTMLDivElement;
 	private _noise: HTMLDivElement;
-	private _img: HTMLImageElement;
+	private _imgLWrapper: HTMLDivElement;
+	private _imgRWrapper: HTMLDivElement;
+	private _imgL: HTMLImageElement;
+	private _imgR: HTMLImageElement;
 	private _size: ImgSize;
 
 	private constructor(target: HTMLImageElement, imgUrl: string, size?: ImgSize) {
@@ -26,6 +31,7 @@ class OldVideoEffect implements EffectControl {
 		this.defineImage(imgUrl);
 		this.filter('black');
 		this.render();
+		this.animationRun();
 	}
 
 	static createImg({target, size, imgUrl}: {target: HTMLImageElement, imgUrl: string, size?: ImgSize}) {
@@ -43,6 +49,8 @@ class OldVideoEffect implements EffectControl {
 		noise.style.left = `calc(-${this._size.width}px/2)`;
 		noise.style.top = `calc(-${this._size.height}px/2)`;
 		noise.style.animation = 'noiseAnimation 1s steps(1) infinite';
+		noise.style.zIndex = '10';
+		noise.style.opacity = '0.3';
 		this._noise = noise;
 	}
 
@@ -52,25 +60,66 @@ class OldVideoEffect implements EffectControl {
 		this._target.style.height = `${this._size.height}px`;
 		this._target.style.overflow = 'hidden';
 	};
-	animationRun: () => void;
+	animationRun() {
+		setInterval(() => {
+			this._imgLWrapper.classList.toggle('use-moveAnimation');
+			this._imgRWrapper.classList.toggle('use-moveAnimation');
+			if(this._imgRWrapper.classList.contains('use-moveAnimation')) {
+				this._imgRWrapper.style.zIndex = '1';
+				this._imgLWrapper.style.zIndex = '0';
+			} else {
+				this._imgRWrapper.style.zIndex = '0';
+				this._imgLWrapper.style.zIndex = '1';
+			}
+		}, 6000);
+
+
+
+	}
 	animationStop: () => void;
 
 	defineImage(imgUrl: string) {
-		this._img = document.createElement('img');
-		this._img.src = imgUrl;
-		this._img.style.opacity = `0.1`;
+		this._imgL = document.createElement('img');
+		this._imgL.src = imgUrl;
+		this._imgL.style.width = `calc(${this._size.width}px)`;
+		this._imgL.style.height = `calc(${this._size.height}px)`;
+
+		this._imgR = document.createElement('img');
+		this._imgR.src = imgUrl;
+		this._imgR.style.width = `calc(${this._size.width}px+${SPACE_SIZE}px)`;
+		this._imgR.style.height = `calc(${this._size.height}px)`;
+
+		this._imgLWrapper = document.createElement('div');
+		this._imgLWrapper.classList.add('wrapper-left');
+		this._imgRWrapper = document.createElement('div');
+		this._imgRWrapper.classList.add('wrapper-right');
+
+		this._imgLWrapper.style.overflow = 'hidden';
+		this._imgLWrapper.style.width = `calc(${this._size.width}px+${SPACE_SIZE}px)`;
+		this._imgLWrapper.style.paddingLeft = `${SPACE_SIZE}px`;
+		this._imgLWrapper.style.height = `${this._size.height}px`;
+		this._imgLWrapper.style.position = 'absolute';
+
+		this._imgRWrapper.style.overflow = 'hidden';
+		this._imgRWrapper.style.width = `${this._size.width}px`;
+		this._imgRWrapper.style.position = 'absolute';
+		this._imgRWrapper.classList.add('use-moveAnimation');
+
 	}
 
 	render() {
 		this._target.append(this._noise);
-		this._target.append(this._img);
+		this._imgLWrapper.appendChild(this._imgL);
+		this._imgRWrapper.appendChild(this._imgR);
+		this._target.append(this._imgLWrapper);
+		this._target.append(this._imgRWrapper);
 	}
 
 	filter(kind: Filter) {
 		switch(kind) {
 			case 'black': {
-				this._img.setAttribute('style',
-				'filter: grayscale(100%); opacity: 0.7; width: 100%; height: 100%;');
+				this._imgL.style.filter = `grayscale(100%)`;
+				this._imgR.style.filter = `grayscale(100%)`;
 				break;
 			}
 			case 'white': {
