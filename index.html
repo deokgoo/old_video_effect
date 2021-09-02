@@ -15,6 +15,10 @@
 		<script type="module" defer>
 			import OldVideoEffect from './lib/oldVideoEffect.js';
 
+			const urlParams = new URLSearchParams(window.location.search);
+			const initUrl = urlParams.get('img-url');
+			document.querySelector('.imgUrl').value = initUrl;
+
 			const runBtn = document.querySelector('.run');
 			runBtn.addEventListener('click', () => {
 				// const imgUrl = 'https://avatars.githubusercontent.com/u/20182365?v=4';
