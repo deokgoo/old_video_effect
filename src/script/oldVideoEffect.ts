@@ -11,7 +11,7 @@ interface EffectControl {
 	animationStop: () => void;
 }
 
-const NOISE_IMG = 'http://localhost:8000/img/noise.jpg';
+const NOISE_IMG = 'https://deokgoo.github.io/old_video_effect/img/noise.jpg';
 const SPACE_SIZE = 5;
 
 class OldVideoEffect implements EffectControl {
